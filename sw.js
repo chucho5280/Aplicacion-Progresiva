@@ -1,4 +1,4 @@
-const STATIC_CACHE = "static-v1";
+const STATIC_CACHE = "dev-padload-site-v2";
 
 const APP_SHELL = [
     "/",
@@ -28,23 +28,21 @@ const APP_SHELL = [
     "/img/nosotros.jpg",
 ];
 
-self.addEventListener("install", (e) => {
-  const cacheStatic = caches
-    .open(STATIC_CACHE)
-    .then((cache) => cache.addAll(APP_SHELL));
 
-  e.waitUntil(cacheStatic);
+self.addEventListener("install",installEvent =>{
+  installEvent.waitUntil(
+      caches.open(STATIC_CACHE).then(cache =>{
+          cache.addAll(APP_SHELL);
+      })
+  );
 });
 
-self.addEventListener("fetch", (e) => {
-  console.log("fetch! ", e.request);
-  e.respondWith(
-    caches
-      .match(e.request)
-      .then((res) => {
-        return res || fetch(e.request);
-      })
-      .catch(console.log)
+self.addEventListener("fetch",fetchEvent =>{
+  fetchEvent.repondWith( //Le ponemos el respondWith por que no queremos la respuesta que nos da el navegador
+  //Nosotros queremos el catche
+      catches.match(fetchEvent.request)
+          .then(res => {
+              return res || fetch(fetchEvent.request)
+          })
   );
-  //   e.waitUntil(response);
 });

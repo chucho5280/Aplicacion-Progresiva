@@ -9,3 +9,13 @@ if (navigator.serviceWorker) {
 
 //Logic of web app
 console.log("Hello world!!");
+
+
+if("serviceWorker" in navigator){
+  console.log("Si soporta")
+  window.addEventListener("load",function(){
+      navigator.serviceWorker.register("/serviceWorker.js")
+      .then(res => console.log("Service Worker registrado"))
+      .catch(err => console.log("Service worker no registrado: "+err))
+  })
+}
